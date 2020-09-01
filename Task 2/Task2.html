@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 2 - Progress tasks - Appointments</title>
+
+    <!--Using Kendo UI stylesheet as the free icon library-->
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2020.2.513/styles/kendo.default-v2.min.css" />
+    <style>
+        body {
+            margin: 0;
+            background: linear-gradient(-45deg, #642714, #6b032b, #093c4e, #0c2f27);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            font-size: 18px;
+            overflow: hidden;
+        }
+
+        .triangle-background-pattern {
+            background: linear-gradient(120deg, transparent 75%, #a13582 75%) 0 0, linear-gradient(240deg, transparent 75%, #a13582 75%) 0 0, linear-gradient(120deg, transparent 75%, #772760 75%) 28.867513452295906px -50px, linear-gradient(240deg, transparent 75%, #772760 75%) 28.867513452295906px 50px, linear-gradient(#48183b 50%, #39132e 50%);
+            background-size: 57.73502690459181px 100px;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .appointments-screen-wrapper {
+            width: 100vw;
+            height: 100vh;
+            box-sizing: border-box;
+            overflow: auto;
+            background: rgba(40, 40, 40, 0.62);
+            color: rgba(255, 255, 255, 0.8);
+            font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+
+
+        .left-side {
+            width: 38vw;
+            height: 94vh;
+            float: left;
+            box-sizing: border-box;
+            margin: 3vh 2vw 3vh 2vw;
+            overflow-y: visible;
+            overflow-x: visible;
+            
+
+        }
+
+                .appointments .appointment {
+                    background: rgba(0, 0, 0, 0.62);
+                    padding: 1em;
+                    margin: 0 0.25vw;
+                    padding-bottom: 1em;
+                    transition: 0.5s;
+                }
+
+                .appointments .appointment:hover {
+                    background: rgba(41, 168, 253, 0.62);
+                    transition: 0.3s;
+                    margin: 1rem -2rem 1rem 0;
+                    padding: 2em;
+                }
+
+                
+
+                .appointments .appointment button:hover {
+                    color: white;
+                    cursor: pointer;
+                    background: rgba(0,0,0,0.38);
+                    padding-top: 1rem;
+                    padding-bottom: 1rem;
+                }
+
+                .appointments .appointment:hover button {
+                    padding-left: 2rem;
+                    padding-right: 2rem;
+                }
+
+                .appointments .appointment+.appointment {
+                    margin-top: 1vw;
+                }
+
+                .appointments .appointment .appointment-title {
+                    font-size: 1.3em;
+                    padding-bottom: 0.5em;
+                    color: rgb(255, 255, 255);
+                }
+
+                .appointments .appointment button {
+                    background: transparent;
+                    border: 1px solid;
+                    color: rgba(255, 255, 255, 0.62);
+                    float: right;
+                    padding:  0.5em;
+                    margin: 0.5em;
+                    margin-top: -2em;
+                    font-size: 1em;
+                    transition: 0.5s;
+                }
+
+                .appointments .appointment button:focus {
+                    outline: none;
+                    
+                }
+
+                .appointments .appointment button:active {
+                    border-style:groove;
+                
+                }
+                .appointments .appointment button:after {
+                    content: "";
+                    display: block;
+                    width: 100%;
+                }
+
+        .right-side {
+            width: 38vw;
+            height: 98vh;
+            float: right;
+            position:fixed;
+            left: 62vw;
+            box-sizing: border-box;
+            padding: 1vh 1vw 1vh 0;
+            
+        }
+        .right-side .header.timewatch {
+            text-align: right;
+            font-size: 3em;
+        }
+
+            .auxiliary {
+                text-align: center;
+                display: grid;
+                height: 80vh;
+                grid-auto-columns: 1fr 1fr 1fr;
+                grid-auto-rows: 1fr 1fr 1fr;
+                font-size: 1em;
+                align-content: center;
+                align-items: center;
+                justify-content: center;
+                justify-items: center;
+                padding-right:10vw;
+                overflow: auto;
+            }
+
+
+
+            .auxiliary .auxiliary-button {
+                cursor: pointer;
+                line-height: 1em;
+                font-size: 1em;
+                transition: all 1s ease;
+                display: grid;
+                align-content: center;
+                justify-items: center;
+                align-items: center;
+                justify-content: center;
+            }
+
+                .auxiliary .auxiliary-button .k-icon {
+                    border: 2px solid rgba(255, 255, 255, 0.5);
+                    border-radius: 50%;
+                    font-size: 5vw;
+                    padding: 2vmax;
+                    transition: all 1s ease;
+
+                }
+
+                .auxiliary .auxiliary-button:hover {
+                    font-size:1.5em;
+                    transition: all 1s ease;
+                    line-height: 1em;
+                    margin: 0 -2vw;
+
+                }
+
+                .auxiliary .auxiliary-button:hover .k-icon {
+                    border-color: rgba(41, 168, 253, 0.38);
+                    font-size: 6vw;
+                    margin: -2vw -1.5vw -2.5vw;
+                    padding: 2.5vmax;
+                }
+
+                
+                .auxiliary .auxiliary-button .k-icon+label {
+                    display: block;
+                    text-align: center;
+                }
+
+        .right-side .volume-slider {
+            text-align: right;
+        }
+
+
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+        }
+
+        .left-side {
+            width: 62vw;
+        }
+
+    @media only screen and (min-width:768px) {
+        .left-side {
+            width: 32vw;
+        }
+        .right-side {
+            width: 60vw;
+            left: 38vw;
+        }
+
+        .auxiliary {
+            overflow: visible;
+        }
+        .auxiliary .auxiliary-button:nth-of-type(1) { 
+            grid-area: 1 / 1 / 2 / 2;
+        }
+
+        .auxiliary .auxiliary-button:nth-of-type(2) { 
+            grid-area: 1 / 2 / 2 / 3;
+        }
+
+        .auxiliary .auxiliary-button:nth-of-type(3) { 
+            grid-area: 2 / 1 / 3 / 2;
+        }
+
+        .auxiliary .auxiliary-button:nth-of-type(4) { 
+            grid-area: 2 / 2 / 3 / 3;
+        }
+
+        .auxiliary .auxiliary-button:nth-of-type(5) { 
+            grid-area: 1 / 3 / 2 / 4;
+        }
+
+        
+        .auxiliary .auxiliary-button:nth-of-type(6) { 
+            grid-area: 3 / 2 / 4 / 3;
+        }
+    }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="appointments-screen-wrapper">
+        <div class="left-side appointments">
+            <div class="appointment">
+                <span class="appointment-duration">12:00am - 1:00am</span>
+                <span class="appointment-icon">i</span>
+
+                <div class="appointment-title">
+                    A Long Title Appointment to break on a few lines for test
+                </div>
+
+                <div class="appointment-attendees">
+                    Georgi Gindev
+                </div>
+
+                <div class="appointment-attendees">
+                    Telerik Team
+                </div>
+
+                <button>Join</button>
+            </div>
+
+            <div class="appointment">
+                <span class="appointment-duration">12:00am - 1:00am</span>
+                <span class="appointment-icon">i</span>
+
+                <div class="appointment-title">
+                    A Long Title Appointment to break on a few lines for test
+                </div>
+
+                <div class="appointment-attendees">
+                    Telerik Team
+                </div>
+
+                <button>Join</button>
+            </div>
+            
+            <div class="appointment">
+                <span class="appointment-duration">12:00am - 1:00am</span>
+                <span class="appointment-icon">i</span>
+
+                <div class="appointment-title">
+                    Appointment Brief
+                </div>
+
+                <div class="appointment-attendees">
+                    Georgi Gindev
+                </div>
+
+                <button>Join</button>
+            </div>
+            <div class="appointment">
+                <span class="appointment-duration">12:00am - 1:00am</span>
+                <span class="appointment-icon">i</span>
+
+                <div class="appointment-title">
+                    Appointment Brief
+                </div>
+
+                <div class="appointment-attendees">
+                    Georgi Gindev
+                </div>
+
+                <button>Join</button>
+            </div>
+            <div class="appointment">
+                <span class="appointment-duration">12:00am - 1:00am</span>
+                <span class="appointment-icon">i</span>
+
+                <div class="appointment-title">
+                    Appointment Brief
+                </div>
+
+                <div class="appointment-attendees">
+                    Georgi Gindev
+                </div>
+
+                <button>Join</button>
+            </div>
+
+            <div class="appointment">
+                <span class="appointment-duration">12:00am - 1:00am</span>
+                <span class="appointment-icon">i</span>
+
+                <div class="appointment-title">
+                    Appointment Brief
+                </div>
+
+                <div class="appointment-attendees">
+                    Georgi Gindev
+                </div>
+
+                <button>Join</button>
+            </div>
+
+            <div class="appointment">
+                <span class="appointment-duration">12:00am - 1:00am</span>
+                <span class="appointment-icon">i</span>
+
+                <div class="appointment-title">
+                    Appointment Brief
+                </div>
+
+                <div class="appointment-attendees">
+                    Georgi Gindev
+                </div>
+
+                <button>Join</button>
+            </div>
+
+            <div class="appointment">
+                <span class="appointment-duration">12:00am - 1:00am</span>
+                <span class="appointment-icon">i</span>
+
+                <div class="appointment-title">
+                    Appointment Brief
+                </div>
+
+                <div class="appointment-attendees">
+                    Georgi Gindev
+                </div>
+
+                <button>Join</button>
+            </div>
+
+            <div class="appointment">
+                <span class="appointment-duration">12:00am - 1:00am</span>
+                <span class="appointment-icon">i</span>
+
+                <div class="appointment-title">
+                    Appointment Brief
+                </div>
+
+                <div class="appointment-attendees">
+                    Georgi Gindev
+                </div>
+
+                <button>Join</button>
+            </div>
+
+            <div class="appointment">
+                <span class="appointment-duration">12:00am - 1:00am</span>
+                <span class="appointment-icon">i</span>
+
+                <div class="appointment-title">
+                    Appointment Brief
+                </div>
+
+                <div class="appointment-attendees">
+                    Georgi Gindev
+                </div>
+
+                <button>Join</button>
+            </div>
+        </div>
+
+        <div class="right-side">
+            <div class="header timewatch">
+                12:05 PM
+            </div>
+
+            <div class="auxiliary">
+
+                <a class="auxiliary-button">
+                    <span class="k-icon k-i-calendar"></span>
+                    New Meeting
+                </a>
+
+                <a class="auxiliary-button">
+                    <span class="k-icon k-i-grid"></span>
+                    Dial Pad
+                </a>
+
+                <a class="auxiliary-button">
+                    <span class="k-icon k-i-checkbox-checked"></span>
+                    Present
+                </a>
+
+                <a class="auxiliary-button">
+                    <span class="k-icon k-i-user"></span>
+                    Invite Additional People
+                </a>
+
+            </div>
+
+            <div class="volume-slider">
+                <input type="range" min="0" max="100" value="38">
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

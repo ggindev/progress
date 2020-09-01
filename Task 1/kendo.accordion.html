@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+
+    <script src="dist/js/jquery.min.js"></script>
+    <script src="dist/js/kendo.ui.core.min.js"></script>
+
+    <style>
+        body {
+            font: 16px 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+        }
+
+        .k-accordion-menu {
+            padding: 1em;
+            width: 100%;
+            max-width: 800px;
+            margin: auto auto;
+        }
+
+        .k-accordion-heading {
+            padding: 0.5em 1em;
+            margin: 0;
+            border-radius: 1em;
+            background: none;
+            transition: all 1s ease;
+            border: 1px solid lightcyan;
+            cursor: pointer;
+        }
+
+        .k-accordion-heading:hover {
+            background: lightcyan
+        }
+
+        .k-accordion-expanded {
+            background: lightcyan;
+            transition: all 0s ease;
+            border-radius: 1em 1em 0 0;
+        }
+
+        .k-accordion-heading:before {
+            content: '»';
+            color:cadetblue;
+            font-size: 0.8em;
+            display: inline-block;
+            transform: rotate(0);
+            transition: all 0.5s ease;
+            width: 1em;
+            height: 1em;
+            line-height: 0.8em;
+            vertical-align: middle;
+            text-align: center;
+        }
+        
+
+        .k-accordion-expanded:before {
+            content: '»';
+            transform: rotate(90deg);
+            transition: all 0.3s ease;
+        }
+
+
+        .k-accordion-heading~.k-accordion-heading {
+            margin-top: 1em;
+        }
+
+        .k-accordion-heading+.k-accordion-content {
+            height: 0;
+            overflow: auto;
+        }
+
+        .k-accordion-expanded+.k-accordion-content {
+            border: 1px solid lightcyan;
+            height: auto;
+            overflow: auto;
+        }
+
+        .k-accordion-content {
+            box-sizing: content-box;
+            padding: 0 1em;
+        }
+
+        #kendo-accordion-menu {
+            min-height: 1em;
+        }
+
+        #kendo-accordion-menu2 {
+            min-height: 1em;
+        }
+
+        #kendo-accordion-menu3 {
+            min-height: 1em;
+        }
+    </style>
+</head>
+
+<body>
+    
+
+    <div id="kendo-accordion-menu2">
+    </div>
+
+
+    <div id="kendo-accordion-menu3">
+    </div>
+
+    <script type="text/x-kendo-template" id="kendo-accordion-name-template">
+        <i>Template #= data.Name # Template</i>
+    </script>
+
+    <script type="text/x-kendo-template" id="kendo-accordion-content-template">
+        <i>Template #= data.Content # Template</i>
+    </script>
+
+
+
+    <script>
+
+        
+
+var dataObject = [
+
+{
+    Name: "First",
+    Content: "This is the widget introduction. It is expanded on initialization.",
+    expanded: false
+},
+{
+    Name: "Second",
+    Content: "Content2 ",
+    expanded: false
+
+}
+];
+
+        var dataObject2 = [
+            {
+                Name: "First",
+                Content: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris posuere metus a mi sollicitudin, at semper quam volutpat. Pellentesque convallis nisi a auctor venenatis. <p>Nunc vel sapien congue velit posuere ultricies. Nulla a nunc viverra, sollicitudin leo ornare, sollicitudin massa. <p>Morbi eu velit quis ligula tempus cursus ut facilisis erat. Vestibulum risus erat, tempus in mattis a, bibendum sit amet urna. Ut ante massa, semper at vulputate sed, vestibulum ac nisi.</p>",
+                expanded: true
+            },
+            {
+                Name: "Second",
+                Content: "<p>Praesent aliquam sollicitudin lectus sed tempor. Aenean id convallis nibh, quis tristique ligula. Suspendisse ut enim condimentum, sagittis est id, eleifend lectus. <p>Cras a ipsum aliquet, hendrerit orci ac, lobortis lacus. Ut neque nisl, facilisis id risus non, congue luctus quam. Nam aliquam elit vel sem vulputate, sed luctus felis auctor. <p>Donec sed laoreet dui, eget dignissim leo. Donec a tellus urna. Nulla dapibus vulputate viverra. Duis eget augue eu dui viverra aliquet sit amet a ex. Aenean pulvinar faucibus dolor eu congue. Fusce et hendrerit lectus, quis congue est. Morbi ullamcorper tortor eu odio malesuada, eget dapibus ante euismod.</p> ",
+                expanded: false
+            }
+        ];
+
+        var dataObject3 = [
+            {
+                Name: "First",
+                Content: "<p>Praesent aliquam sollicitudin lectus sed tempor. Aenean id convallis nibh, quis tristique ligula. Suspendisse ut enim condimentum, sagittis est id, eleifend lectus. <p>Cras a ipsum aliquet, hendrerit orci ac, lobortis lacus. Ut neque nisl, facilisis id risus non, congue luctus quam. Nam aliquam elit vel sem vulputate, sed luctus felis auctor. <p>Donec sed laoreet dui, eget dignissim leo. Donec a tellus urna. Nulla dapibus vulputate viverra. Duis eget augue eu dui viverra aliquet sit amet a ex. Aenean pulvinar faucibus dolor eu congue. Fusce et hendrerit lectus, quis congue est. Morbi ullamcorper tortor eu odio malesuada, eget dapibus ante euismod.</p> ",
+                expanded: false
+            },
+            {
+                Name: "Second",
+                Content: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris posuere metus a mi sollicitudin, at semper quam volutpat. Pellentesque convallis nisi a auctor venenatis. <p>Nunc vel sapien congue velit posuere ultricies. Nulla a nunc viverra, sollicitudin leo ornare, sollicitudin massa. <p>Morbi eu velit quis ligula tempus cursus ut facilisis erat. Vestibulum risus erat, tempus in mattis a, bibendum sit amet urna. Ut ante massa, semper at vulputate sed, vestibulum ac nisi.</p>",
+                expanded: false
+            }
+        ];
+
+
+        // To initialise from dataObject
+
+        $("#kendo-accordion-menu2").kendoAccordion({
+            dataSource: dataObject2
+        });
+
+        // To initialise from DataSource with templates
+        $("#kendo-accordion-menu3").kendoAccordion({
+            dataSource: dataObject3,
+            nameTemplate: $('#kendo-accordion-name-template').html(),
+            contentTemplate: $('#kendo-accordion-content-template').html(),
+            keepOpen: true,
+        });
+    </script>
+
+
+
+</body>
+
+</html>
